@@ -18,6 +18,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from string import Template
 
+import codecs,sys
+sys.stdout=codecs.getwriter('utf-8')(sys.stdout)
+
 #####################################################################
 
 parser = argparse.ArgumentParser(description='Création (ou mise à jour) d\'une base de données JSON pour une recherche Le Bon Coin')
