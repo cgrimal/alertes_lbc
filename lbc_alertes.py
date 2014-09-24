@@ -182,6 +182,8 @@ if ( len(new_annonces_id) > 0 ):
     msg = MIMEMultipart('alternative')
     msg['From'] = from_email
     msg['To'] = to_email
+    if config.has_option('email', 'cc'):
+        msg['cc'] = config.get('email', 'cc')
 
     if config.has_option('email', 'subject_prefix'):
         msg['Subject'] = '[' + config.get('email', 'subject_prefix') + '] Alertes Le Bon Coin : ' + str(len(new_annonces_id)) + ' nouvelle(s) annonce(s) !'
