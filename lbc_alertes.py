@@ -215,6 +215,6 @@ if ( len(new_annonces_id) > 0 ):
     server.sendmail(msg['From'], to_list, msg.as_string())
     server.quit()
 
-    print u"Email envoyé à : "+to_email
+    print u"Email envoyé à : "+str(to_email)
 else:
     print u"Pas d'email envoyé"
