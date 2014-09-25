@@ -182,8 +182,11 @@ if ( len(new_annonces_id) > 0 ):
     msg = MIMEMultipart('alternative')
     msg['From'] = from_email
     msg['To'] = to_email
+    to_list = [email.strip() for email in to_email.split(',')]
     if config.has_option('email', 'cc'):
         msg['cc'] = config.get('email', 'cc')
+        cc_list = [email.strip() for email in config.get('email', 'cc').split(',')]
+        to_list += cc_list
 
     if config.has_option('email', 'subject_prefix'):
         msg['Subject'] = '[' + config.get('email', 'subject_prefix') + '] Alertes Le Bon Coin : ' + str(len(new_annonces_id)) + ' nouvelle(s) annonce(s) !'
@@ -209,7 +212,7 @@ if ( len(new_annonces_id) > 0 ):
     server = smtplib.SMTP(server)
     server.starttls()
     server.login(username,password)
-    server.sendmail(msg['From'], msg['To'], msg.as_string())
+    server.sendmail(msg['From'], to_list, msg.as_string())
     server.quit()
 
     print u"Email envoyé à : "+to_email
