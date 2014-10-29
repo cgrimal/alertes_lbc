@@ -189,9 +189,9 @@ if ( len(new_annonces_id) > 0 ):
         to_list += cc_list
 
     if config.has_option('email', 'subject_prefix'):
-        msg['Subject'] = '[' + config.get('email', 'subject_prefix') + '] Alertes Le Bon Coin : ' + str(len(new_annonces_id)) + ' nouvelle(s) annonce(s) !'
+        msg['Subject'] = config.get('email', 'subject_prefix') + ' :: Alertes Le Bon Coin : nouvelle(s) annonce(s) !'
     else:
-        msg['Subject'] = 'Alertes Le Bon Coin : ' + str(len(new_annonces_id)) + ' nouvelle(s) annonce(s) !'
+        msg['Subject'] = 'Alertes Le Bon Coin : nouvelle(s) annonce(s) !'
 
     html_template = Template(u"""\
     <html>
