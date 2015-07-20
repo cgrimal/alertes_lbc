@@ -35,6 +35,14 @@ json_file   = config.get('core', 'bd_file')
 
 #####################################################################
 
+def format_price(price):
+    if price < 1000:
+        return str(price) + u' €'
+    else:
+        return str(price/1000) + u' k€'
+
+#####################################################################
+
 if os.path.isfile(json_file) :
     input_json = open(json_file, 'r')
     annonces_db = json.load(input_json)
@@ -165,10 +173,10 @@ if ( len(new_annonces_id) > 0 ):
 
         ## gestion du prix
         if 'prix_ancien' in annonce_data:
-            price  = '<strong>NOUVEAU PRIX : ' + str(annonce_data['prix']/1000) + u' k€</strong>'
-            price += ' (ancien prix : ' + str(annonce_data['prix_ancien']/1000) + u' k€)'
+            price  = '<strong>NOUVEAU PRIX : ' + format_price(annonce_data['prix']) + u'</strong>'
+            price += ' (ancien prix : ' + format_price(annonce_data['prix_ancien']) + u')'
         else:
-            price = str(annonce_data['prix']/1000) + u' k€'
+            price = format_price(annonce_data['prix'])
 
         annonce_html = annonce_template.substitute(link=annonce_data['lien'],title=unicode(annonce_data['titre']),img=img,price=price,date=(annonce_data['jour'] + ' ' + annonce_data['heure']))
         annonces_list += annonce_html
