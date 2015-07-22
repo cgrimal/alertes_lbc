@@ -110,7 +110,7 @@ for annonce_bloc in d('.list-lbc > a'):
     if pq(annonce_bloc).find('.price'):
         price = pq(annonce_bloc).find('.price').text().strip()
         price = int(re.sub(regexp_price, '', price))
-    else
+    else:
         price = -1
     print price
     annonce_data['prix'] = price
