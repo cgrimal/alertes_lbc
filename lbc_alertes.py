@@ -36,6 +36,8 @@ json_file   = config.get('core', 'bd_file')
 #####################################################################
 
 def format_price(price):
+    if price == -1:
+        return u'Pas de prix'
     if price < 1000:
         return str(price) + u' €'
     else:
@@ -105,8 +107,11 @@ for annonce_bloc in d('.list-lbc > a'):
     annonce_data['emplacement'] = placement
 
     ## price
-    price = pq(annonce_bloc).find('.price').text().strip()
-    price = int(re.sub(regexp_price, '', price))
+    if pq(annonce_bloc).find('.price'):
+        price = pq(annonce_bloc).find('.price').text().strip()
+        price = int(re.sub(regexp_price, '', price))
+    else
+        price = -1
     print price
     annonce_data['prix'] = price
 
