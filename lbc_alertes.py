@@ -38,10 +38,10 @@ json_file   = config.get('core', 'bd_file')
 def format_price(price):
     if price == -1:
         return u'Pas de prix'
-    if price < 1000:
+    if price < 100000:
         return str(price) + u' €'
     else:
-        return str(price/1000) + u' k€'
+        return str(price/100000) + u' k€'
 
 #####################################################################
 
@@ -64,7 +64,7 @@ yesterday_date = yesterday.strftime('%d/%m/%Y')
 
 d = pq(url=result_url)
 
-for annonce_bloc in d('.list-lbc > a'):
+for annonce_bloc in d('.list_item'):
 
     annonce_data = {}
 
@@ -79,36 +79,34 @@ for annonce_bloc in d('.list-lbc > a'):
     annonce_data['lien'] = link
 
     ## date
-    day,hour = pq(annonce_bloc).find('.date div')
-    if day.text == "Aujourd'hui":
+    day,hour = pq(annonce_bloc).find('aside').text().strip().split(',')
+    if "Aujourd'hui" in day:
         day = today_date
-    elif day.text == "Hier":
+    elif "Hier" in day:
         day = yesterday_date
-    else:
-        day = day.text
-    print day,hour.text
+    print day,hour
     annonce_data['jour'] = day
-    annonce_data['heure'] = hour.text
+    annonce_data['heure'] = hour
 
     ## image
-    image = pq(annonce_bloc).find('.image img').attr('src')
+    image = 'http:' + pq(annonce_bloc).find('.item_image span.lazyload').attr('data-imgsrc')
     print image
     annonce_data['image'] = image
 
-    ## categorie
-    categorie = pq(annonce_bloc).find('.category').text().strip()
-    print categorie
-    annonce_data['categorie'] = categorie
+    # ## categorie
+    # categorie = pq(annonce_bloc).find('.category').text().strip()
+    # print categorie
+    # annonce_data['categorie'] = categorie
 
-    ## placement
-    placement = pq(annonce_bloc).find('.placement').text().split('/')
-    placement = ' / '.join([p.strip() for p in placement])
-    print placement
-    annonce_data['emplacement'] = placement
+    # ## placement
+    # placement = pq(annonce_bloc).find('.placement').text().split('/')
+    # placement = ' / '.join([p.strip() for p in placement])
+    # print placement
+    # annonce_data['emplacement'] = placement
 
     ## price
-    if pq(annonce_bloc).find('.price'):
-        price = pq(annonce_bloc).find('.price').text().strip()
+    if pq(annonce_bloc).find('.item_price'):
+        price = pq(annonce_bloc).find('.item_price').text().strip()
         price = int(re.sub(regexp_price, '', price))
     else:
         price = -1
