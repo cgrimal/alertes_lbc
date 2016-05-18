@@ -76,7 +76,7 @@ for annonce_bloc in d('.list_item'):
     ## lien
     link =  pq(annonce_bloc).attr('href')
     print link
-    annonce_data['lien'] = link
+    annonce_data['lien'] = 'https:' + link
 
     ## date
     day,hour = pq(annonce_bloc).find('aside').text().strip().split(',')
